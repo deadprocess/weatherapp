@@ -5,6 +5,12 @@
 #include <json-c/json.h>
 
 
+struct string { // Struktur für den String, der die Antwort der API speichert
+    char *ptr; // ptr ist ein zeiger der auf char zeigt.
+    size_t len; // size_t = spezieller Datentyp in C welcher dazu verwendet wird die Größe und/oder Länge in Bytes abzuspeichern; len = Länge des Strings
+};
+
+
 CURLcode api_call () { //eigene Funktion
     CURL *curl = curl_easy_init(); //Initialisierung einer CURL-Sitzung und speichert den Zeiger darauf in curl (CURL * = Zeiger auf CURL-Struktur)
     CURLcode res = CURLE_FAILED_INIT; //Variable res speichert den Rückgabewert von curl_easy_perform (wird hier initial mit Fehlerwert CURLE_FAILED_INIT gesetzt)
