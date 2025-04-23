@@ -7,9 +7,26 @@
 
 struct string { // Struktur für den String, der die Antwort der API speichert
     char *ptr; // ptr ist ein zeiger der auf char zeigt.
-    size_t len; // size_t = spezieller Datentyp in C welcher dazu verwendet wird die Größe und/oder Länge in Bytes abzuspeichern; len = Länge des Strings
+    size_t len; // size_t = spezieller Datentyp in C welcher dazu verwendet wird die Größe einer variable und/oder Länge in Bytes abzuspeichern; len = Länge des Strings
 };
 
+size_t writejsonfunction(void *ptr, size_t size, size_t number_of_elements, struct string *json_str) { 
+
+// *ptr = zeiger eines TEILS des json strings
+//size = Die Größe unserer Json-Daten in Bytes
+//numer_of_elements = Anzahl der Elemente in unseren json string
+//json_str = ist eigentlich der zeiger der schluss endlich unseren string an sich speichern wird
+    
+
+}
+
+
+void init_string(struct string *str) {
+
+    (*str).len = 0; // Initialierung von str auf die länge 0
+    (*str).ptr = malloc(1); //Vom unserem str struct greifen wir nun auf den Zeiger ptr zu (welcher ja auf den char zeigte) (welcher schlusseendlich den responsetext trägt)
+    (*str).ptr[0] = '\0'; // Gleichzusetzen mit c#: string name = ""; ('\0' = nullterminierung bzw. das Ende eines string oder der einfachhalt halber: "")
+}
 
 CURLcode api_call () { //eigene Funktion
     CURL *curl = curl_easy_init(); //Initialisierung einer CURL-Sitzung und speichert den Zeiger darauf in curl (CURL * = Zeiger auf CURL-Struktur)
