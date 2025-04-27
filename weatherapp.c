@@ -17,7 +17,7 @@ size_t writejsonfunction(void *ptr, size_t size, size_t number_of_elements, stru
 //numer_of_elements = Anzahl der Elemente in unseren json string
 //json_str = ist eigentlich der zeiger der schluss endlich unseren string an sich speichern wird
     
-
+size_t new_len = (*json_str).len + size * number_of_elements; // Neue Länge = aktuelle Länge + Größe der neuen JSON-Daten in Byter multipliziert mit der Anzahl der Elemente
 }
 
 
