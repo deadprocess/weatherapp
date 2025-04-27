@@ -15,16 +15,21 @@ size_t writejsonfunction(void *ptr, size_t size, size_t number_of_elements, stru
 // *ptr = zeiger eines TEILS des json strings
 //size = Die Größe unserer Json-Daten in Bytes
 //numer_of_elements = Anzahl der Elemente in unseren json string
-//json_str = ist eigentlich der zeiger der schluss endlich unseren string an sich speichern wird
+//json_str = ist eigentlich der zeiger der schluss endlich unseren string anzeigt
     
-size_t new_len = (*json_str).len + size * number_of_elements; // Neue Länge = aktuelle Länge + Größe der neuen JSON-Daten in Byter multipliziert mit der Anzahl der Elemente
+size_t new_len = (*json_str).len + size * number_of_elements; // Neue Länge = aktuelle Länge + Größe der neuen JSON-Daten in Bytes multipliziert mit der Anzahl der Elemente
+(*json_str).ptr = realloc((*json_str).ptr, new_len + 1); // Der JSON-String wird mit der funktion realloc (speichererweiterung) vergrößert um die neue Länge + 1 Byte
+memcpy((*json_str).ptr + (*json_str).len, ptr, size * number_of_elements); //memcpy = kopiert daten: kopiert den teil unseres json string + die länge sowie unsere teil des json strings multipliziert mit der neuen größe
+
+
+
 }
 
 
 void init_string(struct string *str) {
 
     (*str).len = 0; // Initialierung von str auf die länge 0
-    (*str).ptr = malloc(1); //Vom unserem str struct greifen wir nun auf den Zeiger ptr zu (welcher ja auf den char zeigte) (welcher schlusseendlich den responsetext trägt)
+    (*str).ptr = malloc(1); //Vom unserem str struct greifen wir nun auf den Zeiger ptr zu (welcher ja auf den char zeigte) (welcher schlussendlich den responsetext trägt)
     (*str).ptr[0] = '\0'; // Gleichzusetzen mit c#: string name = ""; ('\0' = nullterminierung bzw. das Ende eines string oder der einfachhalt halber: "")
 }
 
