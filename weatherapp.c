@@ -61,15 +61,14 @@ int main () { // Hauptfunktion
 
     char *json_response = api_call(); // Aufruf meiner eigenen Funktion api_call, welche die API abfragt und das Resultat als Zeiger des Inhalts zurückgibt und es in der Variable json_response abspeichert
     printf("Antwort: %s\n", json_response);
-    const char *json_string = *json_response; //Hier wird der Rückgabewert der API in einen String umgewandelt, damit er als JSON interpretiert werden kann
-
+    
     //Parse JSON
     struct json_object *parsed_json;
-    parsed_json = json_tokener_parse(json_string); //Hier wird der JSON-String geparsed und in parsed_json gespeichert
-    struct json_object *weather_description;
-    json_object_object_get_ex(parsed_json, "weather_description", &weather_description); //Hier wird das Wetter-Objekt aus dem JSON-String extrahiert und in weather_description gespeichert
-    struct json_object *weather_description = json_object_array_get_idx(weather_description, 0); //Hier wird das erste Element des Wetter-Objekts extrahiert und in weather_description gespeichert
+    parsed_json = json_tokener_parse(json_response); //Hier wird der JSON-String geparsed und in parsed_json gespeichert
+    struct json_object *weatherDesc;
+    json_object_object_get_ex(parsed_json, "weatherDesc", &weatherDesc); //Hier wird das Wetter-Objekt aus dem JSON-String extrahiert und in weatherDesc gespeichert
+    
     struct json_object *value;
-    json_object_object_get_ex(value, "value", &value); //Hier wird der Wert des Wetter-Objekts extrahiert und in value gespeichert
-    printf("Wetterbeschreibung: %s\n", json_object_get_string(value)); //Hier wird die Wetterbeschreibung ausgegeben
+    json_object_object_get_ex(weatherDesc, "value", &value); // Hier wird der Wert des Wetter-Objekts aus weather_description extrahiert
+    printf("Wetterbeschreibung: %s\n", json_object_get_string(value)); // Hier wird die Wetterbeschreibung ausgegeben
 }
