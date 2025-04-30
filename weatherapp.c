@@ -38,27 +38,30 @@ void init_string(struct string *str) {
     (*str).ptr[0] = '\0'; // Gleichzusetzen mit c#: string name = ""; ('\0' = nullterminierung bzw. das Ende eines string oder der einfachhalt halber: "")
 }
 
-CURLcode api_call () { //eigene Funktion
+char *api_call () { //eigene Funktion
+    struct string json_str;
+    init_string(&json_str); //initiiert den String json_str
+
+    
+    
     CURL *curl = curl_easy_init(); //Initialisierung einer CURL-Sitzung und speichert den Zeiger darauf in curl (CURL * = Zeiger auf CURL-Struktur)
     CURLcode res = CURLE_FAILED_INIT; //Variable res speichert den Rückgabewert von curl_easy_perform (wird hier initial mit Fehlerwert CURLE_FAILED_INIT gesetzt)
     if (curl) { //Prüfung ob die CURL-Sitzung erfolgreich intitialisiert wurde
         curl_easy_setopt(curl, CURLOPT_URL, "https://wttr.in/Krefeld?format=j1"); // Setzen der URL für die Wetter-API
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writejsonfunction);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &json_str);
+
         res = curl_easy_perform(curl); //Der API-Call wird ausgeführt und das Ergebnis in res gespeichert.
     }
     curl_easy_cleanup(curl); //Aufräumen der CURL-Sitzung und Freigabe der Ressourcen
-    return res;
+    return json_str.ptr;
 }
 
 int main () { // Hauptfunktion
 
-    CURLcode res = api_call(); // Aufruf meiner eigenen Funktion api_call, welche die API abfragt und das Resultat als Typ CURLcode zurückgibt und es in der Variable res abspeichert
-    if (res == CURLE_OK) { // Überprüfung ob mein API-Call erforgreich war
-    printf("API call war erfolgreich\n"); //Ausgabe einer Erfolgsnachricht
-    } else { 
-        printf("Der API call war nicht erfolgreich.\n"); // Ausgabe einer Fehlermeldung
-    }
-
-    const char *json_string = res; //Hier wird der Rückgabewert der API in einen String umgewandelt, damit er als JSON interpretiert werden kann
+    char *json_response = api_call(); // Aufruf meiner eigenen Funktion api_call, welche die API abfragt und das Resultat als Zeiger des Inhalts zurückgibt und es in der Variable json_response abspeichert
+    printf("Antwort: %s\n", json_response);
+    const char *json_string = *json_response; //Hier wird der Rückgabewert der API in einen String umgewandelt, damit er als JSON interpretiert werden kann
 
     //Parse JSON
     struct json_object *parsed_json;
