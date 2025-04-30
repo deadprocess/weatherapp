@@ -20,8 +20,13 @@ size_t writejsonfunction(void *ptr, size_t size, size_t number_of_elements, stru
 size_t new_len = (*json_str).len + size * number_of_elements; // Neue Länge = aktuelle Länge + Größe der neuen JSON-Daten in Bytes multipliziert mit der Anzahl der Elemente
 (*json_str).ptr = realloc((*json_str).ptr, new_len + 1); // Der JSON-String wird mit der funktion realloc (speichererweiterung) vergrößert um die neue Länge + 1 Byte
 memcpy((*json_str).ptr + (*json_str).len, ptr, size * number_of_elements); //memcpy = kopiert daten: kopiert den teil unseres json string + die länge sowie unsere teil des json strings multipliziert mit der neuen größe
+(*json_str).ptr[new_len] = '\0'; // Nullterminierung des Strings (Beendet den String) Wir erinnern uns: '\0' = "";
 
-
+// writejsonfunction = Diese Funktion wird aufgerufen um die JSON-Daten zu verarbeiten und darauf einen String zu basteln
+// Zunächst wird die neue Länge des string in der Variable new_len abgespeichert.
+//Anschließend wird der Zeiger unseres JSON-Chunks oder JSON-Stücks vergrößert um die neue Länge + 1 Byte damit man da auch die restlichen Daten reinpackt, quasi Chunk für Chunk.
+// Am Ende werden die Daten in den Zeiger kopiert (der string)
+//Gannz zum schluss wird der string mit '\0' nullterminiert bzw gesagt '"'->Ende des String.
 
 }
 
